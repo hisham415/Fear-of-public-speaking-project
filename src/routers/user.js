@@ -49,10 +49,6 @@ router.post('/users/signup', async (req,res)=>{
     }
  })
  
-// router.get('/users/me',auth,async(req,res)=>{
-//     res.send(req.user)
-// })
-
 router.patch('/users/me',auth, async (req, res) => {
     const updates = Object.keys(req.body)
     const allowedUpdates = ['name', 'email', 'password', 'age']
@@ -86,17 +82,6 @@ router.delete('/users/me',auth, async (req, res) => {
         res.status(500).send()
     }
 })
-
-
-
-
-
-
-
-
-
-
-
 
 
 module.exports = router

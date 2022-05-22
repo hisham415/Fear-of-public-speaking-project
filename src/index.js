@@ -6,7 +6,6 @@ const axios = require('axios')
 require('./db/mongoose')
 
 
-//const Task = require('./models/tasks')
 const User = require('./models/user')
 const userRouter = require('../src/routers/user')
 const taskRouter = require('./routers/task');
@@ -15,16 +14,13 @@ const request = require('request');
 const app = express()
 const port = process.env.port || 4000
 
-app.use("/avatars", express.static(path.join(__dirname, "../avatars")));
+app.use("/audio", express.static(path.join(__dirname, "../audio")));
 
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(express.json())
 app.use(userRouter)
 app.use(taskRouter)
-
-
-
 
 
 
