@@ -43,7 +43,7 @@ router.post('/tasks/me/avatar',auth, upload.single('avatar'), async (req, res) =
          file : "/avatars/"+ req.file.filename
         }
       });
-      */
+      */ 
     //res.send(data)
     req.user.audio = [...req.user.audio , {audioUrl : "/avatars/" + req.file.filename }]
     console.log(req.user)
