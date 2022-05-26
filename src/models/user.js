@@ -40,7 +40,18 @@ const userSchema = new mongoose.Schema( {
             if(x<0)
             throw new Error('age must be positive number')
         }
-    },audio:[{
+    }, 
+    // status: {
+    //     type: String, 
+    //     enum: ['Pending', 'Active'],
+    //     default: 'Pending'
+    //   },
+    // confirmationCode: { 
+    //     type: String, 
+    //     unique: true 
+    // },
+    
+    audio:[{
         audioUrl: {
             type: String
         }

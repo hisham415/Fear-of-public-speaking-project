@@ -37,7 +37,12 @@ router.post('/users/signup', async (req,res)=>{
  })
 
  router.post('/users/login', async (req,res)=>{
-   
+    
+    // if (user.status != "Active") {
+    //     return res.status(401).send({
+    //       message: "Pending Account. Please Verify Your Email!",
+    //     });
+    //   }
     try{
         const user = await User.findByCredentials(req.body.email, req.body.password)
         const token = await user.generateAuthToken()
