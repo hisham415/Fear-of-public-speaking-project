@@ -1,7 +1,7 @@
 {
   "name": "task-manager",
   "version": "1.0.0",
-  "description": "",
+  "description": "��#\u0000 \u0000F\u0000e\u0000a\u0000r\u0000-\u0000o\u0000f\u0000-\u0000p\u0000u\u0000b\u0000l\u0000i\u0000c\u0000-\u0000s\u0000p\u0000e\u0000a\u0000k\u0000i\u0000n\u0000g\u0000-\u0000p\u0000r\u0000o\u0000j\u0000e\u0000c\u0000t\u0000\r\u0000 \u0000",
   "main": "index.js",
   "scripts": {
     "start": "node src/index.js",
@@ -16,15 +16,25 @@
     "body-parser": "^1.20.0",
     "express": "^4.18.1",
     "jsonwebtoken": "^8.5.1",
+    "mailgun-js": "^0.22.0",
     "mongodb": "^4.5.0",
     "mongoose": "^6.3.2",
     "multer": "^1.4.4",
     "multiparty": "^4.2.3",
+    "nodemailer": "^6.7.5",
     "request": "^2.88.2",
     "sharp": "^0.30.4",
     "validator": "^13.7.0"
   },
   "devDependencies": {
     "nodemon": "^2.0.16"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hisham415/Fear-of-public-speaking-project.git"
+  },
+  "bugs": {
+    "url": "https://github.com/hisham415/Fear-of-public-speaking-project/issues"
+  },
+  "homepage": "https://github.com/hisham415/Fear-of-public-speaking-project#readme"
 }

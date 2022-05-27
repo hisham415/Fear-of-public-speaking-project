@@ -4,9 +4,14 @@ const User = require('../models/user')
 const auth = require('../middleware/auth')
 const router = new express.Router()
 
+const characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
+
+
 router.post('/users/signup', async (req,res)=>{
+    for (let i = 0; i < 25; i++) {
+        req.body.confirmationCode += characters[Math.floor(Math.random() * characters.length )];
+    }
     const user = new User(req.body)
-  
     try{
      await user.save()
      const token = await user.generateAuthToken()
@@ -37,14 +42,18 @@ router.post('/users/signup', async (req,res)=>{
  })
 
  router.post('/users/login', async (req,res)=>{
-    
-    // if (user.status != "Active") {
-    //     return res.status(401).send({
-    //       message: "Pending Account. Please Verify Your Email!",
-    //     });
-    //   }
+            
+   
     try{
         const user = await User.findByCredentials(req.body.email, req.body.password)
+
+        if (user.status != "Active") {
+            return res.status(401).send({
+              message: "Pending Account. Please Verify Your Email!",
+            });
+          }
+
+
         const token = await user.generateAuthToken()
         
         res.send({user: user ,token: token})
@@ -87,6 +96,15 @@ router.delete('/users/me',auth, async (req, res) => {
         res.status(500).send()
     }
 })
-
+router.post('/confirm', async (req,res) => {
+    const confirmationCode = req.body.confirmationCode
+    //console.log(confirmationCode)
+   const x = await User.findOne({ confirmationCode: confirmationCode })
+    if(x){
+        x.status = "Active"
+        x.save()
+        res.send(x)
+    }
+})
 
 module.exports = router
