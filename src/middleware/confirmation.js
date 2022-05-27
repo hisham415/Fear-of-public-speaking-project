@@ -5,8 +5,8 @@ const mg = mailgun({apiKey: api_key, domain: DOMAIN});
 const data = {
 	from: 'kirito <hishamsayed444@gmail.com>',
 	to: 'hishamsayed444@gmail.com',
-	subject: 'Hello',
-	text: 'Testing some Mailgun awesomness!'
+	subject: 'confirmation',
+	text: 'please confirm your Email Adress!'
 };
 mg.messages().send(data, function (error, body) {
 	console.log(body);
