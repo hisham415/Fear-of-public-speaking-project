@@ -1,17 +1,21 @@
 const { Router } = require('express')
 const express = require('express')
 const User = require('../models/user')
+const mailer = require('../middleware/confirmation')
 const auth = require('../middleware/auth')
+const mailgun = require("mailgun-js");
+
 const router = new express.Router()
 
 const characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
-
 
 router.post('/users/signup', async (req,res)=>{
     for (let i = 0; i < 25; i++) {
         req.body.confirmationCode += characters[Math.floor(Math.random() * characters.length )];
     }
+    console.log(req.body.confirmationCode)
     const user = new User(req.body)
+    mailer(req.body.email , req.body.confirmationCode)
     try{
      await user.save()
      const token = await user.generateAuthToken()
