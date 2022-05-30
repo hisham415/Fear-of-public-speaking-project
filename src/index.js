@@ -12,7 +12,7 @@ const taskRouter = require('./routers/task');
 const request = require('request');
 
 const app = express()
-const port = process.env.port || 4000
+const port =  4000
 
 app.use("/audio", express.static(path.join(__dirname, "../audio")));
 
@@ -24,7 +24,7 @@ app.use(taskRouter)
 
 
 
-
+app.get('/',(req,res)=> res.json({message: 'hello world!'}))
 
 app.listen(port , ()=>{
     console.log('server is up and running on port '+ port)
