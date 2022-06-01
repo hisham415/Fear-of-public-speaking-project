@@ -16,7 +16,7 @@ router.post('/users/signup', async (req,res)=>{
     }
     console.log(typeof req.body.confirmationCode)
     const user = new User(req.body)
-    mailer(req.body.email , req.body.confirmationCode)
+    //mailer(req.body.email , req.body.confirmationCode)
     try{
      await user.save()
      const token = await user.generateAuthToken()
