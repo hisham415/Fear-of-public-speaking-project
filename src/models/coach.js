@@ -1,12 +1,9 @@
+const schema = require('mailgun-js/lib/schema')
 const mongoose = require('mongoose')
 const validator = require('validator')
-const bcrypt = require('bcryptjs')
-const jwt = require('jsonwebtoken')
-const { string } = require('sharp/lib/is')
-const Coach = require('./coach')
+const User = require('./user')
 
-
-const userSchema = new mongoose.Schema( {
+const coachSchema = new mongoose.Schema({
     name:{
         type: String ,
         required: true,
@@ -51,48 +48,40 @@ const userSchema = new mongoose.Schema( {
         type: String, 
         unique: true, 
         required: true
-    },
-    
-    audio:[{
-        audioUrl: {
-            type: String
-        }
-
-    }],
-    tokens:[{
+    },  tokens:[{
         token:{
             type: String,
             required: true
         }
     }] , 
-    trainers:{
-        type: mongoose.Schema.Types.ObjectId , 
-        ref: Coach
-    }
+        trainees:{
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'User'
+    },
 })
 
 
-userSchema.methods.toJSON = function (){
-    const user = this
-    const userObject = user.toObject()
-    delete userObject.password
-    delete userObject.tokens
+coachSchema.methods.toJSON = function (){
+    const coach = this
+    const coachObject = coach.toObject()
+    delete coachObject.password
+    delete coachObject.tokens
 
-    return userObject
+    return coachObject
 }
 
-userSchema.methods.generateAuthToken = async function(){
-    const user = this
-    const token = jwt.sign({ _id: user._id.toString() }, 'thisismynewcourse')
-         user.tokens = user.tokens.concat({token: token})
-         await user.save()
+coachSchema.methods.generateAuthToken = async function(){
+    const coach = this
+    const token = jwt.sign({ _id: coach._id.toString() }, 'thisismynewcourse')
+         coach.tokens = coach.tokens.concat({token: token})
+         await coach.save()
     return token
 }
 
-userSchema.statics.findByCredentials = async (email,password)=>{
-    const user = await User.findOne({email: email})
+coachSchema.statics.findByCredentials = async (email,password)=>{
+    const coach = await coach.findOne({email: email})
     
-    if(!user){
+    if(!coach){
        
         throw new Error('unable to login')
     }
@@ -102,15 +91,15 @@ userSchema.statics.findByCredentials = async (email,password)=>{
         throw new Error('unable to login!')
     }
    
-    return  user
+    return  coach
 }
 
 
-userSchema.pre('save',async function (next){
-    const user = this
-    if(user.isModified('password')){
+coachSchema.pre('save',async function (next){
+    const coach = this
+    if(coach.isModified('password')){
 
-        user.password = await bcrypt.hash(user.password,8) 
+        coach.password = await bcrypt.hash(coach.password,8) 
        
     }
 
@@ -118,16 +107,16 @@ userSchema.pre('save',async function (next){
 })
 
 
-userSchema.pre('remove',async function(next){
-    const user = this
+coachSchema.pre('remove',async function(next){
+    const coach = this
     //await Task.deleteMany({owner: user._id})
     next()
 })
 
 
 
-const User = mongoose.model('User' ,userSchema)
+const Coach = mongoose.model('Coach' ,coachSchema)
 
 
 
-module.exports= User
+module.exports= Coach

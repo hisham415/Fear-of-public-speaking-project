@@ -40,7 +40,6 @@ router.post('/tasks/me/audio',auth, upload.single('audio'), async (req, res) => 
       */
     //res.send(data)
     req.user.audio = [...req.user.audio , {audioUrl : "/audio/" + req.file.filename }]
-    console.log(req.user)
     await req.user.save()
 
     res.send()

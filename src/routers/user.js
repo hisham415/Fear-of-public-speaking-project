@@ -14,7 +14,6 @@ router.post('/users/signup', async (req,res)=>{
         x = Math.floor(Math.random() * characters.length)
         req.body.confirmationCode += characters[x];
     }
-    console.log(typeof req.body.confirmationCode)
     const user = new User(req.body)
     //mailer(req.body.email , req.body.confirmationCode)
     try{
@@ -103,7 +102,7 @@ router.delete('/users/me',auth, async (req, res) => {
 })
 router.post('/confirm', async (req,res) => {
     const confirmationCode = req.body.confirmationCode
-    //console.log(confirmationCode)
+    
    const x = await User.findOne({ confirmationCode: confirmationCode })
     if(x){
         x.status = "Active"
@@ -111,6 +110,14 @@ router.post('/confirm', async (req,res) => {
         res.send(x)
     }
 })
+router.post('/myTrainings',auth,async(req,res)=>{
+    const user = req.user
+    res.status(200).send(user.audio)
+})
+router.post('/coacher',auth,async(req,res)=>{
+    //still trying to figure it out
+})
+
 
 module.exports = router
 
