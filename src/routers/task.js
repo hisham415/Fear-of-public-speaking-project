@@ -30,19 +30,25 @@ const upload = multer({
 })
 
 router.post('/tasks/me/audio',auth, upload.single('audio'), async (req, res) => {
+    try{
     const data = await axios({
         method: 'get',
         url: "http://127.0.0.1:5000/",
         data: {
          file : "C:/Users/Hassn Hamada/Desktop/New folder (2)/Fear-of-public-speaking-projects/audio/" + req.file.filename
         }
+        
       });
-
       res.send(data.data)
+      
+      req.user.result = [...req.user.result , {Sentence : data.data.Sentence, Fillers : data.data.fillers, FillersPercentage: data.data.FillersPercentage, WordCount:data.data.WordCount}]
+      req.user.audio = [...req.user.audio , {audioUrl : "/audio/" + req.file.filename }]
+    } catch(e){
+      throw new Error()
+    }
+      
 
-        req.user.result = [...req.user.result , {Sentence : data.data.Sentence, Fillers : data.data.fillers, FillersPercentage: data.data.FillersPercentage, WordCount:data.data.WordCount}]
-        req.user.audio = [...req.user.audio , {audioUrl : "/audio/" + req.file.filename }]
-        console.log(req.user)
+    console.log(req.user)
     req.user.save()
 
 })
